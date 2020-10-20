@@ -1,14 +1,15 @@
 parameter env.
 local prm is env:init:prm.
-print "ASL RVL SR v3.2 @ " + prm.
+print "ASL RVL SR v3.3 @ " + prm.
 local started is false. local mst is 0. local psc is 0.
 local azmc is prm:azm. local pitc is 90.0. local troc is 1.0.
 local function halt {parameter m is "STOP". logc("HALT:" + m). until false {wait 999.}}
 local function logc {parameter m. print "[T+" + r2(met()) + "] " + m.}
 local function met {return choose time:seconds - mst if started else 0.}
 local function nothr {list engines in el. for e in el {if (e:thrust > 0) {return false.}} return true.}
-local function str {parameter vf. lock steering to lookdirup(vf(), facing:topvector).}
+local function pres {return ship:sensors:pres.}
 local function r2 {parameter v. return round(v, 2).}
+local function str {parameter vf. lock steering to lookdirup(vf(), facing:topvector).}
 local function vels {return velocity:surface:mag.}
 if env:init:chk {list files. halt("CHECK").}
 str({return heading(azmc, pitc):vector.}). lock throttle to troc. logc("INIT").
@@ -27,6 +28,8 @@ until false {
 	wait 0.1.
 }
 if (prm:fom = "PRO") {str({return prograde:vector.}).}
-wait until (ship:sensors:pres > prm:cdp). unlock steering. chutes on. logc("CHUTES").
+local presp is pres(). until (presp < pres()) {set presp to pres(). wait 1.}
+if (prm:npd) {stage. logc("NPD").}
+wait until (pres() > prm:cdp). unlock steering. chutes on. logc("CHUTES").
 wait until (vels() < 0.3). logc("LANDED").
 halt("COMPLETE").

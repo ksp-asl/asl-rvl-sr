@@ -1,7 +1,7 @@
 parameter env.
 local prm is env:init:prm.
-print "ASL RVL SR v2.1 @ " + prm.
-local mst is 0. local psc is 0. local started is false.
+print "ASL RVL SR v2.2 @ " + prm.
+local started is false. local mst is 0. local psc is 0. local pvels is 0. 
 local function halt {parameter m is "STOP". logc("HALT:" + m). until false {wait 999.}}
 local function logc {parameter m. print "[T+" + round(met(), 2) + "] " + m.}
 local function met {return choose time:seconds - mst if started else 0.}
@@ -15,13 +15,9 @@ until false {
 		if (psc = prm:psn) {logc("FREEFLY"). break.}
 		stage. set psc to psc + 1. logc("STAGE #" + psc).
 	}
+	logc("ACCL " + round((vels() - pvels) / 0.1, 2)). set pvels to vels().
 	wait 0.1.
 }
-until false {
-	local prs is ship:sensors:pres.
-	logc("PRES " + round(prs, 2)).
-	if (prs > prm:cdp) {chutes on. logc("CHUTES"). break.}
-	wait 1.
-}
+wait until (ship:sensors:pres > prm:cdp). chutes on. logc("CHUTES").
 wait until (vels() < 0.3). logc("LANDED").
 halt("COMPLETE").

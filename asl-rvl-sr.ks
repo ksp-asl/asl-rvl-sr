@@ -1,6 +1,6 @@
 parameter env.
 local prm is env:init:prm.
-print "ASL RVL SR v2.0 @ " + prm.
+print "ASL RVL SR v2.1 @ " + prm.
 local mst is 0. local psc is 0. local started is false.
 local function halt {parameter m is "STOP". logc("HALT:" + m). until false {wait 999.}}
 local function logc {parameter m. print "[T+" + round(met(), 2) + "] " + m.}
@@ -9,7 +9,7 @@ local function nothr {list engines in el. for e in el {if (e:thrust > 0) {return
 local function vels {return velocity:surface:mag.}
 if env:init:chk {list files. halt("CHECK").}
 local t is 9. until (t = 0) {logc("CNTD " + t). set t to t - 1. wait 1.}
-set mst to time:seconds. set started to true. logc("IGNITION").
+set mst to time:seconds. set started to true. lock throttle to 1. logc("IGNITION").
 until false {
 	if (nothr()) {
 		if (psc = prm:psn) {logc("FREEFLY"). break.}

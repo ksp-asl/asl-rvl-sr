@@ -7,7 +7,9 @@ Launch parameters are configured as attributes of ```env:init:prm``` object:
 - ```azm```: launch direction azimuth;
 - ```cdp```: chute deployment pressure (kPa);
 - ```fom```: freefly orientation mode (```PRO```, optional);
-- ```psn```: the number of rocket power stages.
+- ```psn```: the number of rocket power stages;
+- ```xaps```: cutoff apoapsis altitude (m);
+- ```xvel```: cutoff velocity (m/s).
 
 ## Other Configuration
 Script also expects ```env:init:chk``` parameter to be set.

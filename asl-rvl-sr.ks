@@ -1,7 +1,7 @@
 parameter env.
 local prm is env:init:prm.
-print "ASL RVL SR v3.5 @ " + prm.
-local started is false. local mst is 0. local psc is 0.
+print "ASL RVL SR v3.6 @ " + prm.
+local lcm is prm:lcm. local mst is 0. local psc is 0. local started is false. 
 local azmc is prm:azm. local pitc is 90.0. local troc is 1.0.
 local function halt {parameter m is "STOP". logc("HALT:" + m). until false {wait 999.}}
 local function logc {parameter m. print "[T+" + r2(met()) + "] " + m.}
@@ -20,6 +20,7 @@ until false {
 		if (psc = prm:psn) {unlock steering. logc("FREEFLY"). break.}
 		stage. set psc to psc + 1. logc("STAGE #" + psc). wait 0.5.
 	}
+	if (lcm) {wait 0.2. stage. wait 0.5. set lcm to false. logc("LCM").}
 	if (apoapsis > prm:xaps or vels > prm:xvel) {
 		logc("CUTOFF | APS " + r2(apoapsis) + " | VEL " + r2(vels())).
 		set troc to 0.

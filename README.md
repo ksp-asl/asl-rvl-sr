@@ -1,1 +1,2 @@
-# asl-rvl-sr
+# ASL RVL SR
+Sounding rockets launch sequence

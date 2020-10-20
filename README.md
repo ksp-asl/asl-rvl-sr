@@ -3,7 +3,7 @@ Sounding rockets launch sequence
 
 ## Launch Parameters
 Launch parameters are configured as attributes of ```env:init:prm``` object:
-- ```cdd```: chute deployment delay (time interval in seconds which would be passed since acceleration drop until chutes deployment);
+- ```cdp```: chute deployment pressure (kPa);
 - ```psn```: the number of rocket power stages.
 
 ## Other Configuration

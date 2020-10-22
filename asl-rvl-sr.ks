@@ -18,8 +18,8 @@ local function upv {return choose up:vector if ras else facing:topvector.}
 local function vels {return velocity:surface.}
 if (env:init:chk) {list files. halt("CHECK").}
 logc("INIT").
-when (met() > 45) then {set ras to true. logc("RAS:ON").}
-when (prm:npd <> false and psc = prm:psn and (pres() < prm:npd or desc())) then {stg("NPD").}
+when (met() > 30) then {set ras to true. logc("RAS ON").}
+when (prm:asp and psc = prm:psn and (pres() < 0.005 or desc())) then {stg("ASP").}
 str({return heading(azmc, pitc):vector.}). lock throttle to troc.
 logc("STANDBY 10"). wait 10.
 logc("IGNITION"). set mst to time:seconds.

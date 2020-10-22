@@ -1,6 +1,6 @@
 parameter env.
 local prm is env:init:prm.
-print "ASL RVL SR v5.6 @ " + prm.
+print "ASL RVL SR v6.0 @ " + prm.
 local aenc is 0. local aenp is 0. list engines in el. 
 local lft is false. local mst is -1. local psc is 0. local ras is false.
 local azmc is prm:azm. local pitc is 90.0. local troc is 1.0.
@@ -13,23 +13,20 @@ local function met {return choose 0 if mst < 0 else time:seconds - mst.}
 local function pres {return ship:sensors:pres.}
 local function r2 {parameter v. return round(v, 2).}
 local function stg {parameter m. wait 0.1. stage. wait 0.2. logc(m). wait 0.3.}
-local function str {parameter vf. unlock steering. lock steering to lookdirup(vf(), upv()).}
-local function upv {return choose up:vector if ras else facing:topvector.}
 local function vels {return velocity:surface.}
-if (env:init:chk) {list files. halt("check").}
 if (missiontime > 9) {set mst to time:seconds - missiontime. halt("Interrupt").}
 logc("Init").
-when (met() > 30) then {set ras to true. logc("RAS ON").}
-when (prm:asp and psc = prm:psn and (pres() < 0.001 or desc())) then {stg("ASP").}
-str({return heading(azmc, pitc):vector.}). lock throttle to troc.
+logc("Standby key"). terminal:input:getchar().
+when (met() > 30) then {set ras to true. logc("Roll").}
+when (prm:asp and psc = prm:psn and (pres() < 0.001 or desc())) then {stg("Asp").}
+lock steering to lookdirup(heading(azmc, pitc):vector, choose up:vector if ras else facing:topvector).
+lock throttle to troc.
 logc("Standby 10"). wait 10.
 logc("Ignition"). set mst to time:seconds.
 until false {
 	set aenc to aen().
 	if (aenc = 0 or aenc < aenp) {
-		if (psc = prm:psn) {
-			set troc to 0. str({return srfprograde:vector.}). logc("Freefly"). break.
-		}
+		if (psc = prm:psn) {set troc to 0. break.}
 		stg("Stage " + (psc + 1)). set psc to psc + 1.
 	}
 	if (not lft) {
@@ -46,6 +43,7 @@ until false {
 	if (apoapsis > prm:xaps or vels():mag > prm:xvel) {set troc to 0. logc("Cutoff").}
 	wait 0.1.
 }
+unlock throttle. set ship:control:pilotmainthrottle to 0. unlock steering. logc("Unlock").
 wait until (desc()). if (prm:head) {stg("Head").}
-wait until (pres() > prm:cdp). unlock steering. chutes on. logc("Chutes").
+wait until (pres() > prm:cdp). chutes on. logc("Chutes").
 halt().

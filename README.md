@@ -16,5 +16,10 @@ Launch parameters are configured as attributes of ```env:init:prm``` object:
 - ```xaps```: cutoff apoapsis altitude (m);
 - ```xvel```: cutoff velocity (m/s).
 
-## Other Configuration
-Script also expects ```env:init:chk``` parameter to be set.
+## Changelog
+
+### V6.0
+- Standby key launch command added;
+- Flight steering simplified and revised;
+- Logging style improved;
+- Launch check ```env:init:chk``` parameter deprecated.

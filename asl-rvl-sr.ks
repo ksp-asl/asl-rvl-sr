@@ -1,6 +1,6 @@
 parameter env.
 local prm is env:init:prm.
-print "ASL RVL SR v5.2 @ " + prm.
+print "ASL RVL SR v5.3 @ " + prm.
 local mst is 0. local started is false.
 local thrc is 0. local thrp is 0.
 local lft is false. local psc is 0. local ras is false.
@@ -19,7 +19,7 @@ local function upv {return choose up:vector if ras else facing:topvector.}
 local function vels {return velocity:surface.}
 if (env:init:chk) {list files. halt("CHECK").}
 logc("INIT").
-when (met() > 15) then {set ras to true. logc("RAS:ON").}
+when (met() > 45) then {set ras to true. logc("RAS:ON").}
 when (prm:npd <> false and psc = prm:psn and (pres() < prm:npd or desc())) then {stg().}
 str({return heading(azmc, pitc):vector.}). lock throttle to troc.
 logc("STANDBY 10"). wait 10.
@@ -48,6 +48,6 @@ until false {
 	}
 	wait 0.1.
 }
-wait until (desc() and pres() > prm:cdp).
-unlock steering. chutes on. logc("CHUTES").
+wait until (desc()). if (prm:head) {stg().}
+wait until (pres() > prm:cdp). unlock steering. chutes on. logc("CHUTES").
 halt().

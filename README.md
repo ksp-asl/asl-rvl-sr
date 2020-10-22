@@ -4,7 +4,6 @@ Sounding rockets launch sequence
 ## Launch Parameters
 Launch parameters are configured as attributes of ```env:init:prm``` object:
 - ```aps```: target apoapsis altitude (m);
-- ```arc```: coefficient of target apoapsis;
 - ```asp```: airstream protection deployment (```true``` | ```false```);
 - ```azm```: launch direction azimuth;
 - ```cdp```: chute deployment pressure (kPa);
@@ -17,6 +16,10 @@ Launch parameters are configured as attributes of ```env:init:prm``` object:
 - ```xvel```: cutoff velocity (m/s).
 
 ## Changelog
+
+#### v6.1
+- Arc launch parameter ```arc``` deprecated;
+- Shutdown mechanism implemented.
 
 ### v6.0
 - Standby key launch command added;

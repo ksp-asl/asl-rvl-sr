@@ -6,6 +6,7 @@ Launch parameters are configured as attributes of ```env:init:prm``` object:
 - ```aps```: target apoapsis altitude (m);
 - ```azm```: launch direction azimuth;
 - ```cdp```: chute deployment pressure (kPa);
+- ```clamps```: launch clamps mechanism (```true``` | ```false```);
 - ```npd```: nose protection deployment (```true``` | ```false```);
 - ```psn```: the number of rocket power stages;
 - ```xaps```: cutoff apoapsis altitude (m);

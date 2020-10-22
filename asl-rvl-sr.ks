@@ -1,6 +1,6 @@
 parameter env.
 local prm is env:init:prm.
-print "ASL RVL SR v4.1 @ " + prm.
+print "ASL RVL SR v4.2 @ " + prm.
 local mst is 0. local started is false.
 local lft is false. local psc is 0. local ras is false.
 local azmc is prm:azm. local pitc is 90.0. local troc is 1.0.
@@ -25,7 +25,8 @@ until false {
 	}
 	if (not lft) {
 		wait until (not nothr()).
-		stg(0.2). set lft to true. logc("LIFTOFF").
+		if (prm:clamps) {logc("CLAMPS"). stg(0.2).}
+		set lft to true. logc("LIFTOFF").
 	}
 	if (not ras and met() > 15.0) {
 		set ras to true. logc("RAS:ON").

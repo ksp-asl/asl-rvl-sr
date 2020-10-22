@@ -9,7 +9,7 @@ Launch parameters are configured as attributes of ```env:init:prm``` object:
 - ```cdp```: chute deployment pressure (kPa);
 - ```clamps```: launch clamps mechanism (```true``` | ```false```);
 - ```faa```: flight angle at apoapsis;
-- ```npd```: nose protection deployment (```true``` | ```false```);
+- ```npd```: nose protection deployment (kPa | ```false```);
 - ```psn```: the number of rocket power stages;
 - ```trt```: throttle reduction threshold;
 - ```xaps```: cutoff apoapsis altitude (m);

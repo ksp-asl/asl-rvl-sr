@@ -1,31 +1,35 @@
 parameter env.
 local prm is env:init:prm.
-print "ASL RVL SR v5.0 @ " + prm.
+print "ASL RVL SR v5.1 @ " + prm.
 local mst is 0. local started is false.
+local thrc is 0.001. local thrp is 0.001.
 local lft is false. local psc is 0. local ras is false.
 local azmc is prm:azm. local pitc is 90.0. local troc is 1.0.
 local function halt {parameter m is "STOP". logc("HALT:" + m). until false {wait 999.}}
 local function lm {parameter v, a, b. return max(min(v, b), a).}
 local function logc {parameter m. print "[T+" + r2(met()) + "] " + m.}
 local function met {return choose time:seconds - mst if started else 0.}
-local function nothr {list engines in el. for e in el {if (e:thrust > 0) {return false.}} return true.}
 local function pres {return ship:sensors:pres.}
 local function r2 {parameter v. return round(v, 2).}
 local function stg {parameter d is 0.1. wait d. stage. wait 0.5.}
 local function str {parameter vf. unlock steering. lock steering to lookdirup(vf(), upv()).}
+local function thr {list engines in el. local v is 0.001. for e in el {set v to v + e:thrust.} return v.}
 local function upv {return choose up:vector if ras else facing:topvector.}
 local function vels {return velocity:surface.}
 if (env:init:chk) {list files. halt("CHECK").}
 str({return heading(azmc, pitc):vector.}). lock throttle to troc. logc("INIT").
 logc("STANDBY 10"). wait 10.
+if (prm:npd <> false) {when (psc = prm:psn and pres() < prm:npd) then {stg().}}
 set mst to time:seconds. set started to true. logc("IGNITION").
 until false {
-	if (nothr()) {
+	set thrc to thr().
+	if ((thrc < 0.01) or (thrc / thrp < 0.75)) {
 		if (psc = prm:psn) {str({return srfprograde:vector.}). logc("FREEFLY"). break.}
 		stg(). set psc to psc + 1. logc("STAGE #" + psc).
 	}
+	set thrp to thrc.
 	if (not lft) {
-		wait until (not nothr()).
+		wait until (thr() > 0.01).
 		if (prm:clamps) {logc("CLAMPS"). stg(0.2).}
 		set lft to true. logc("LIFTOFF").
 	}
@@ -44,8 +48,6 @@ until false {
 	}
 	wait 0.1.
 }
-local presp is pres(). until (presp < 0.005 or presp < pres()) {set presp to pres().}
-if (prm:npd) {stg(3). logc("NPD").}
 wait until (pres() > prm:cdp). unlock steering. chutes on. logc("CHUTES").
 wait until (vels():mag < 0.3). logc("LANDED").
 halt("COMPLETE").

@@ -26,10 +26,10 @@ logc("IGNITION"). set mst to time:seconds.
 until false {
 	set aenc to aen().
 	if (aenc = 0 or aenc < aenp) {
-	if (psc = prm:psn) {
-		set troc to 0. str({return srfprograde:vector.}). logc("FREEFLY"). break.
-	}
-	stg("STAGE " + (psc + 1)). set psc to psc + 1.
+		if (psc = prm:psn) {
+			set troc to 0. str({return srfprograde:vector.}). logc("FREEFLY"). break.
+		}
+		stg("STAGE " + (psc + 1)). set psc to psc + 1.
 	}
 	if (not lft) {
 		wait until (aen() > 0).

@@ -18,7 +18,7 @@ Launch parameters are configured as attributes of ```env:init:prm``` object:
 #### v6.2
 - RCS activation added;
 - Brakes group control added (primary for clamps release control);
-- Airstream protection deployment and launch clamping mechnaism control deprecated.
+- Airstream protection deployment and launch clamping mechanism control deprecated.
 
 #### v6.1
 - Arc launch parameter ```arc``` deprecated;

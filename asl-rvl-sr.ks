@@ -1,6 +1,6 @@
 parameter env.
 local prm is env:init:prm.
-print "ASL RVL SR v6.1 @ " + prm.
+print "ASL RVL SR v6.2 @ " + prm.
 local aenc is 0. local aenp is 0. list engines in el. 
 local lft is false. local mst is -1. local psc is 0. local ras is false.
 local azmc is prm:azm. local pitc is 90.0. local troc is 1.0.
@@ -18,7 +18,7 @@ if (missiontime > 9) {shd().}
 logc("Init").
 logc("Standby key"). terminal:input:getchar().
 when (met() > 30) then {set ras to true. logc("Roll").}
-when (prm:asp and psc = prm:psn and (pres() < 0.001 or desc())) then {stg("Asp").}
+when (pres() < 0.001 or desc()) then {rcs on. logc("Rcs on").}
 lock steering to lookdirup(heading(azmc, pitc):vector, choose up:vector if ras else facing:topvector).
 lock throttle to troc.
 logc("Standby 10"). wait 10.
@@ -29,11 +29,7 @@ until false {
 		if (psc = prm:psn) {set troc to 0. break.}
 		stg("Stage " + (psc + 1)). set psc to psc + 1.
 	}
-	if (not lft) {
-		wait until (aen() > 0).
-		if (prm:clamps) {stg("Clamps").}
-		set lft to true. logc("Liftoff").
-	}
+	if (not lft) {wait until (aen() > 0). brakes on. brakes off. logc("Release"). set lft to true.}
 	set aenp to aen().
 	local x1 is lm(apoapsis / prm:aps).
 	local x2 is lm(90.0 - vang(up:vector, vels()), 90.0).

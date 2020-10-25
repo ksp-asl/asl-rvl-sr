@@ -4,10 +4,8 @@ Sounding rockets launch sequence
 ## Launch Parameters
 Launch parameters are configured as attributes of ```env:init:prm``` object:
 - ```aps```: target apoapsis altitude (m);
-- ```asp```: airstream protection deployment (```true``` | ```false```);
 - ```azm```: launch direction azimuth;
 - ```cdp```: chute deployment pressure (kPa);
-- ```clamps```: launch clamps mechanism (```true``` | ```false```);
 - ```faa```: flight angle at apoapsis;
 - ```head```: head module deployment (```true``` | ```false```);
 - ```psn```: the number of rocket power stages;
@@ -16,6 +14,11 @@ Launch parameters are configured as attributes of ```env:init:prm``` object:
 - ```xvel```: cutoff velocity (m/s).
 
 ## Changelog
+
+#### v6.2
+- RCS activation added;
+- Brakes group control added (primary for clamps release control);
+- Airstream protection deployment and launch clamping mechnaism control deprecated.
 
 #### v6.1
 - Arc launch parameter ```arc``` deprecated;

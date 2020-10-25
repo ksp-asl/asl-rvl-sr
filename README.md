@@ -6,7 +6,6 @@ Launch parameters are configured as attributes of ```env:init:prm``` object:
 - ```aps```: target apoapsis altitude (m);
 - ```azm```: launch direction azimuth;
 - ```cdp```: chute deployment pressure (kPa);
-- ```faa```: flight angle at apoapsis;
 - ```head```: head module deployment (```true``` | ```false```);
 - ```psn```: the number of rocket power stages;
 - ```trt```: throttle reduction threshold;

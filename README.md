@@ -10,7 +10,7 @@ Launch parameters are configured as attributes of ```env:init:prm``` object:
 - ```psn```: the number of rocket power stages;
 - ```trt```: throttle reduction threshold;
 - ```xaps```: cutoff apoapsis altitude (m);
-- ```xvel```: cutoff velocity (m/s).
+- ```xvel```: cutoff orbital velocity (m/s).
 
 ## Changelog
 

@@ -15,6 +15,11 @@ Launch parameters are configured as attributes of ```env:init:prm``` object:
 
 ## Changelog
 
+#### v6.3
+- Flight angle at apoapsis parameter ```faa``` deprecated;
+- Cutoff velocicy is checked against current orbital velocity;
+- Interruption check removed.
+
 #### v6.2
 - RCS activation added;
 - Brakes group control added (primary for clamps release control);

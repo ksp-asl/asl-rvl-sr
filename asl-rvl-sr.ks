@@ -1,9 +1,9 @@
 parameter env.
 local prm is env:init:prm.
-print "ASL RVL SR v6.3 @ " + prm.
+print "ASL RVL SR v7.0 @ " + prm.
 local aenc is 0. local aenp is 0. list engines in el. 
 local lft is false. local mst is -1. local psc is 0. local ras is false.
-local azmc is prm:azm. local pitc is 90.0. local troc is 1.0.
+local azmc is prm:azm. local pitc is 90.0. local troc is prm:tro[1].
 local function desc {return verticalspeed < -0.5.}
 local function aen {local n is 0. for e in el {if (e:thrust > 0) {set n to n + 1.}} return n.}
 local function lm {parameter v, h is 1.0, l is 0. return max(min(v, h), l).}
@@ -28,15 +28,15 @@ until false {
 	}
 	if (not lft) {wait until (aen() > 0). brakes on. brakes off. logc("Release"). set lft to true.}
 	set aenp to aen().
-	local x1 is lm(apoapsis / prm:aps).
+	local x1 is lm(apoapsis / prm:alt).
 	local x2 is lm(90.0 - vang(up:vector, velocity:surface), 90.0).
 	local x3 is 15.0 - 10.0 * lm((pres() / 0.5) ^ 0.5).
 	set pitc to lm(90.0 - 90.0 * x1, x2 + x3, x2 - x3).
-	set troc to 1.0 - (1.0 - prm:trt) * lm(x1 ^ 1.7 - lm(30 / eta:apoapsis) ^ 2).
+	set troc to prm:tro[1] - (prm:tro[1] - prm:tro[0]) * lm(x1 ^ 1.7 - lm(30 / eta:apoapsis) ^ 2).
 	if (apoapsis > prm:xaps or velocity:obt:mag > prm:xvel) {set troc to 0. logc("Cutoff").}
 	wait 0.1.
 }
 unlock throttle. set ship:control:pilotmainthrottle to 0. unlock steering. logc("Unlock").
-wait until (pres() = 0 or desc()). if (prm:head) {wait 3. stg("Head").}
-wait until (pres() > prm:cdp). chutes on. logc("Chutes").
+if (prm:hmd) {wait until (desc() or pres() = 0). wait 3. stg("Head").}
+if (prm:cdp > 0) {wait until (desc() and pres() > prm:cdp). chutes on. logc("Chutes").}
 print "Shutdown". wait 3. shutdown.
